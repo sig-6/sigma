@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sigma Admin · Elon Musk style</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: radial-gradient(circle at 20% 30%, #0b0f1c, #010101 90%);
+            font-family: 'Space Grotesk', sans-serif;
+            color: #e5e9f0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* animated cyber grid */
+        body::before {
+            content: "";
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* floating orbs */
+        .orb {
+            position: absolute;
+            width: 280px;
+            height: 280px;
+            background: rgba(0, 180, 255, 0.15);
+            border-radius: 50%;
+            filter: blur(90px);
+            z-index: 0;
+        }
+        .orb1 { top: -80px; right: -50px; background: #00c3ff20; }
+        .orb2 { bottom: -100px; left: -30px; background: #a855f720; }
+
+        .glass-panel {
+            position: relative;
+            z-index: 10;
+            width: 90%;
+            max-width: 1320px;
+            margin: 2rem auto;
+            background: rgba(10, 20, 30, 0.35);
+            backdrop-filter: blur(12px) saturate(180%);
+            -webkit-backdrop-filter: blur(12px) saturate(180%);
+            border: 1px solid rgba(0, 255, 255, 0.25);
+            border-radius: 3rem;
+            padding: 2.2rem 2.5rem;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(0, 255, 200, 0.1) inset, 0 0 30px #00ccff20;
+        }
+
+        /* header with cyber glow */
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            color: #00f0ff;
+            filter: drop-shadow(0 0 10px cyan);
+            background: #0a1a2a;
+            padding: 10px;
+            border-radius: 20px;
+            border: 1px solid cyan;
+        }
+
+        .title h1 {
+            font-weight: 600;
+            font-size: 2.2rem;
+            letter-spacing: -0.02em;
+            background: linear-gradient(130deg, #fff, #a0e9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .title p {
+            color: #88b8d8;
+            font-weight: 300;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .badge {
+            background: #0f2638;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            border: 1px solid #2c5777;
+            color: #9bc9ff;
+        }
+
+        .contract-pill {
+            background: #0b1a2b;
+            border: 1px solid #2b5570;
+            border-radius: 60px;
+            padding: 0.6rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            box-shadow: 0 0 15px #004466;
+        }
+        .contract-pill i {
+            color: #2ad4b6;
+        }
+        .contract-pill span {
+            font-family: monospace;
+            font-weight: 500;
+            color: #c6e9ff;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #7aa3c2;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 1rem;
+        }
+        .copy-btn:hover {
+            color: cyan;
+            text-shadow: 0 0 8px cyan;
+        }
+
+        /* main action card */
+        .action-elevated {
+            background: linear-gradient(145deg, #0f1e2f, #07121e);
+            border-radius: 2.5rem;
+            padding: 2.8rem 2rem;
+            border: 1px solid #1d4b66;
+            box-shadow: 0 20px 40px -10px #00000080, 0 0 25px #00a6ff40;
+            margin-bottom: 3rem;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+        }
+
+        .action-text h2 {
+            font-size: 2.2rem;
+            font-weight: 400;
+            background: linear-gradient(135deg, #ffffff, #b2f0ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .action-text h2 i {
+            color: cyan;
+            margin-right: 15px;
+            background: #0b1f2d;
+            padding: 8px;
+            border-radius: 18px;
+            border: 1px solid cyan;
+        }
+        .action-text p {
+            color: #adcfec;
+            font-size: 1.2rem;
+            margin-top: 8px;
+        }
+
+        .add-user-button {
+            background: #0c1e2c;
+            border: 2px solid #00f0ff;
+            border-radius: 60px;
+            padding: 0.9rem 2.8rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 0 30px #00e0ff, 0 5px 15px #000;
+            letter-spacing: 1px;
+            background: linear-gradient(145deg, #112b3f, #03141f);
+        }
+        .add-user-button i {
+            font-size: 2rem;
+            color: #00fff9;
+        }
+        .add-user-button:hover {
+            box-shadow: 0 0 50px cyan, 0 0 20px blue;
+            border-color: white;
+            transform: scale(1.02);
+            background: #133e55;
+        }
+
+        /* Stats row (premium) */
+        .metric-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 2.8rem;
+            justify-content: center;
+        }
+        .metric-item {
+            background: rgba(0, 15, 25, 0.7);
+            backdrop-filter: blur(8px);
+            border: 1px solid #1b506b;
+            border-radius: 40px;
+            padding: 1.2rem 2rem;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            flex: 1 1 auto;
+            box-shadow: 0 15px 20px -10px #00000080;
+        }
+        .metric-icon {
+            background: #0e2538;
+            border-radius: 50%;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #3fe0ff;
+            border: 1px solid cyan;
+        }
+        .metric-content h4 {
+            font-weight: 300;
+            font-size: 0.95rem;
+            color: #afcdff;
+        }
+        .metric-content .value {
+            font-size: 1.9rem;
+            font-weight: 600;
+            background: linear-gradient(135deg, #fff, #82e6ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        /* add user page (hidden by default) */
+        .page {
+            display: none;
+        }
+        .active-page {
+            display: block;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            color: #b5e4ff;
+            text-decoration: none;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            border: 1px solid #1b5270;
+            padding: 0.5rem 1.5rem;
+            border-radius: 40px;
+            transition: 0.2s;
+        }
+        .back-link i {
+            font-size: 1.2rem;
+        }
+        .back-link:hover {
+            background: #153d55;
+            border-color: cyan;
+            color: white;
+        }
+
+        .form-card {
+            background: #0b1d2e;
+            border-radius: 3rem;
+            padding: 3rem;
+            border: 1px solid #266b8f;
+            box-shadow: 0 25px 40px -15px black, 0 0 35px #006b8f40;
+        }
+
+        .form-title {
+            font-size: 2.4rem;
+            margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .form-title i {
+            color: cyan;
+            background: #102f41;
+            padding: 12px;
+            border-radius: 30px;
+            border: 1px solid cyan;
+        }
+
+        .input-group {
+            margin-bottom: 2rem;
+        }
+        .input-group label {
+            display: block;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+            color: #bce0ff;
+            letter-spacing: 0.3px;
+        }
+        .input-group label i {
+            width: 28px;
+            color: cyan;
+        }
+        .input-field {
+            width: 100%;
+            background: #021017;
+            border: 1px solid #1d6585;
+            border-radius: 50px;
+            padding: 1.1rem 1.8rem;
+            font-size: 1.1rem;
+            color: white;
+            font-family: 'Space Grotesk', monospace;
+            transition: all 0.2s;
+        }
+        .input-field:focus {
+            outline: none;
+            border-color: cyan;
+            box-shadow: 0 0 25px cyan, 0 0 5px blue inset;
+            background: #031e2b;
+        }
+        .input-field::placeholder {
+            color: #507b9b;
+            font-weight: 300;
+        }
+
+        .submit-btn {
+            background: linear-gradient(120deg, #003f5f, #002835);
+            border: 2px solid #1ad4ff;
+            color: white;
+            font-size: 1.8rem;
+            font-weight: 600;
+            padding: 1.2rem 2.5rem;
+            border-radius: 70px;
+            width: 100%;
+            cursor: pointer;
+            transition: 0.25s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 0 25px #00a6ff;
+        }
+        .submit-btn i {
+            font-size: 2rem;
+        }
+        .submit-btn:hover {
+            box-shadow: 0 0 50px cyan, 0 0 20px #0044ff;
+            border-color: white;
+            background: #01466b;
+        }
+
+        .footnote {
+            margin-top: 25px;
+            color: #728ba5;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        hr {
+            border: 0.5px solid #154257;
+            margin: 30px 0 20px;
+        }
+
+        /* responsive */
+        @media (max-width: 700px) {
+            .glass-panel { padding: 1.5rem; }
+            .add-user-button { font-size: 1.2rem; padding: 0.8rem 1.5rem; }
+            .action-text h2 { font-size: 1.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+
+    <!-- main container -->
+    <div class="glass-panel" id="app">
+        <!-- INDEX PAGE (active by default) -->
+        <div id="indexPage" class="page active-page">
+            <!-- header with contract -->
+            <div class="header">
+                <div class="logo-area">
+                    <div class="logo-icon"><i class="fas fa-cube"></i></div>
+                    <div class="title">
+                        <h1>Σ Admin · Sigma</h1>
+                        <p><i class="fas fa-bolt"></i> neural command center <span class="badge">Elon·X</span></p>
+                    </div>
+                </div>
+                <div class="contract-pill">
+                    <i class="fas fa-link"></i>
+                    <span id="contractDisplay">0xf7a8...Aee1</span>
+                    <button class="copy-btn" onclick="copyContract()"><i class="far fa-copy"></i></button>
+                </div>
+            </div>
+
+            <!-- MAIN BUTTON: ADD USERS (ELON STYLE) -->
+            <div class="action-elevated">
+                <div class="action-text">
+                    <h2><i class="fas fa-user-astronaut"></i> user onboarding</h2>
+                    <p><i class="fas fa-caret-right"></i> register new members to the sigma matrix</p>
+                </div>
+                <button class="add-user-button" id="goToAddUserBtn">
+                    <i class="fas fa-plus-circle"></i> Add Users
+                </button>
+            </div>
+
+            <!-- premium metrics (musk vibe) -->
+            <div class="metric-grid">
+                <div class="metric-item">
+                    <div class="metric-icon"><i class="fas fa-chart-line"></i></div>
+                    <div class="metric-content">
+                        <h4>current rate</h4>
+                        <div class="value">$0.02471</div>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon"><i class="fas fa-history"></i></div>
+                    <div class="metric-content">
+                        <h4>ATH / ATL</h4>
+                        <div class="value">0.031 · 0.012</div>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon"><i class="fas fa-users"></i></div>
+                    <div class="metric-content">
+                        <h4>qualified directs</h4>
+                        <div class="value">1,423</div>
+                    </div>
+                </div>
+                <div class="metric-item">
+                    <div class="metric-icon"><i class="fas fa-dragon"></i></div>
+                    <div class="metric-content">
+                        <h4>level unlocked</h4>
+                        <div class="value">L5 · ∞</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- extra glitch row (just design) -->
+            <hr />
+            <div style="display: flex; gap: 20px; color: #5282a2; justify-content: flex-end;">
+                <span><i class="fas fa-circle"></i> last action block: 19487321</span>
+                <span><i class="fas fa-shield-halved"></i> admin only</span>
+            </div>
+        </div>
+
+        <!-- ADD USER PAGE (hidden initially) -->
+        <div id="addUserPage" class="page">
+            <a href="#" id="backToIndexBtn" class="back-link"><i class="fas fa-arrow-left"></i> back to command center</a>
+
+            <div class="form-card">
+                <div class="form-title">
+                    <i class="fas fa-user-plus"></i> 
+                    <span>register new user (admin set upline)</span>
+                </div>
+
+                <!-- adminSetUpline form with two addresses -->
+                <div class="input-group">
+                    <label><i class="fas fa-fingerprint"></i> user address</label>
+                    <input type="text" class="input-field" id="userAddress" placeholder="0x..." value="0xUser...">
+                </div>
+                <div class="input-group">
+                    <label><i class="fas fa-sitemap"></i> upline address (referrer)</label>
+                    <input type="text" class="input-field" id="uplineAddress" placeholder="0x..." value="0xUpline...">
+                </div>
+
+                <button class="submit-btn" id="simulateSetUpline">
+                    <i class="fas fa-check-double"></i> execute adminSetUpline
+                </button>
+
+                <div class="footnote">
+                    <i class="fas fa-radiation"></i>
+                    <span>calls adminSetUpline(user, upline) — onlyOwner</span>
+                </div>
+                <div style="margin-top: 25px; background: #05212e; border-radius: 50px; padding: 1rem 2rem; border: 1px dashed #2f7595;">
+                    <span style="color: #a0d9ff;"><i class="fas fa-crown" style="color: gold;"></i> contract: 0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // simple vanilla router for two "pages"
+        const indexPage = document.getElementById('indexPage');
+        const addUserPage = document.getElementById('addUserPage');
+
+        document.getElementById('goToAddUserBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            indexPage.classList.remove('active-page');
+            addUserPage.classList.add('active-page');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        document.getElementById('backToIndexBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            addUserPage.classList.remove('active-page');
+            indexPage.classList.add('active-page');
+        });
+
+        // COPY CONTRACT FUNCTION
+        window.copyContract = function() {
+            const contractFull = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
+            navigator.clipboard.writeText(contractFull).then(() => {
+                alert('✓ Contract address copied (0xf7a8...Aee1)');
+            }).catch(() => {
+                alert('Press Ctrl+C (manual copy): ' + contractFull);
+            });
+        };
+
+        // simulate adminSetUpline — since this is a static demo, we just show a toast
+        document.getElementById('simulateSetUpline').addEventListener('click', function(e) {
+            e.preventDefault();
+            const user = document.getElementById('userAddress').value.trim() || '0xUser...';
+            const upline = document.getElementById('uplineAddress').value.trim() || '0xUpline...';
+            // emulating a blockchain call with musk-style message
+            alert(`🚀 ADMIN ACTION (simulated)\n\nCalling adminSetUpline on contract:\nUser: ${user}\nUpline: ${upline}\n\n[ABI encoded] — onlyOwner tx would be sent. (Demo)`);
+            // you can optionally redirect to index after "success"
+            if(confirm('Simulate success & return to dashboard?')) {
+                addUserPage.classList.remove('active-page');
+                indexPage.classList.add('active-page');
+            }
+        });
+
+        // optional: fill with example addresses (from ABI we see creatorWallet etc)
+        // just to look realistic
+        window.onload = function() {
+            // set placeholder examples
+            document.getElementById('userAddress').placeholder = '0x71C7656EC7ab88b098defB751B7401B5f6d8976F';
+            document.getElementById('uplineAddress').placeholder = '0xcreator... or 0x000...';
+        };
+
+        // make sure back link also works if someone clicks quickly
+        // extra: escape button style
+    </script>
+
+    <!-- bottom note to match elon style -->
+    <div style="position: fixed; bottom: 10px; right: 20px; z-index: 99; opacity: 0.4; font-size: 0.8rem; color: #5f8fb0;">
+        <i class="fas fa-robot"></i> X · sigma admin panel
+    </div>
+</body>
+</html>
