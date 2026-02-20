@@ -15,110 +15,248 @@
 
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background: radial-gradient(circle at 20% 30%, #1a1a2e, #0a0a0f);
+            background: #0a0a0f;
             min-height: 100vh;
             color: #fff;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Animated background */
+        /* ===== PREMIUM RAINBOW BACKGROUND ===== */
+        .rainbow-bg {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(
+                from 0deg,
+                #ff0000,
+                #ff00ff,
+                #0000ff,
+                #00ffff,
+                #00ff00,
+                #ffff00,
+                #ff0000
+            );
+            opacity: 0.1;
+            filter: blur(100px);
+            animation: rotateRainbow 30s linear infinite;
+            z-index: -2;
+        }
+
+        @keyframes rotateRainbow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Animated grid overlay */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23ffffff" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23ffffff" stroke-width="0.5"/></svg>');
-            background-size: 100px 100px;
+            background: 
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 50px 50px,
+                linear-gradient(0deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px) 0 0 / 50px 50px;
+            animation: gridShift 20s linear infinite;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
 
-        /* Cyber grid effect */
-        .grid-overlay {
+        @keyframes gridShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 100px; }
+        }
+
+        /* Floating particles */
+        .particles {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            pointer-events: none;
-            z-index: 1;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 255, 255, 0.3);
+            border-radius: 50%;
+            box-shadow: 0 0 20px #00ffff;
+            animation: floatParticle 10s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(0);
+                opacity: 0;
+            }
         }
 
         .container {
             position: relative;
             z-index: 10;
-            max-width: 800px;
+            max-width: 1000px;
             margin: 0 auto;
             padding: 2rem;
         }
 
-        /* Header */
+        /* ===== PREMIUM HEADER ===== */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
             padding: 1.5rem 2rem;
-            background: rgba(10, 10, 20, 0.8);
-            backdrop-filter: blur(10px);
+            background: rgba(10, 10, 20, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 20px;
+            border-radius: 30px;
             margin-bottom: 2rem;
-        }
-
-        .back-btn {
-            color: #00ffff;
-            text-decoration: none;
-            font-size: 16px;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             transition: all 0.3s ease;
         }
 
-        .back-btn:hover {
-            text-shadow: 0 0 20px #00ffff;
-            transform: translateX(-5px);
+        .header:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
         }
 
-        .wallet-info {
-            padding: 0.5rem 1rem;
+        .back-btn {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1.5rem;
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 50px;
-            font-family: monospace;
-            color: #00ffff;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
 
-        /* Main Card */
-        .add-user-card {
-            background: rgba(10, 10, 20, 0.8);
+        .back-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .back-btn:hover {
+            transform: translateX(-5px);
+            border-color: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+
+        .back-btn:hover::before {
+            left: 100%;
+        }
+
+        .wallet-info {
+            padding: 0.8rem 1.8rem;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 1px solid rgba(0, 255, 255, 0.4);
+            border-radius: 50px;
+            font-family: monospace;
+            color: #00ffff;
+            font-size: 16px;
+            letter-spacing: 1px;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        /* ===== PREMIUM STATS BAR ===== */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-pill {
+            background: rgba(10, 10, 20, 0.7);
             backdrop-filter: blur(10px);
             border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 40px;
+            border-radius: 30px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-pill:hover {
+            transform: translateY(-5px);
+            border-color: #ff00ff;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        /* ===== PREMIUM MAIN CARD ===== */
+        .add-user-card {
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 50px;
             padding: 3rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            margin-bottom: 2rem;
+        }
+
+        /* Rainbow border animation */
+        .add-user-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            background: linear-gradient(90deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 300% 100%;
+            border-radius: 52px;
+            z-index: -2;
+            animation: borderFlow 4s linear infinite;
+            opacity: 0.5;
+        }
+
+        @keyframes borderFlow {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 300% 50%; }
         }
 
         .add-user-card::before {
             content: '';
             position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            animation: rotate 10s linear infinite;
-            z-index: 0;
-        }
-
-        @keyframes rotate {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
+            inset: 0;
+            background: rgba(10, 10, 20, 0.95);
+            border-radius: 48px;
+            z-index: -1;
         }
 
         .card-content {
@@ -127,27 +265,38 @@
         }
 
         .card-title {
-            font-size: 42px;
-            font-weight: 700;
+            font-size: 56px;
+            font-weight: 800;
             margin-bottom: 0.5rem;
-            background: linear-gradient(135deg, #fff, #00ffff);
+            background: linear-gradient(135deg, #fff, #00ffff, #ff00ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .card-subtitle {
-            color: #888;
-            margin-bottom: 2rem;
-            font-size: 16px;
+            color: #aaa;
+            margin-bottom: 3rem;
+            font-size: 18px;
+            letter-spacing: 1px;
         }
 
-        /* Form */
+        /* ===== PREMIUM FORM ===== */
         .form-group {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
         }
 
         .form-label {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
             color: #00ffff;
             margin-bottom: 0.8rem;
             font-size: 14px;
@@ -155,64 +304,100 @@
             letter-spacing: 2px;
         }
 
+        .form-label i {
+            font-size: 18px;
+            filter: drop-shadow(0 0 10px #00ffff);
+        }
+
         .form-input {
             width: 100%;
-            padding: 1.2rem 1.5rem;
-            background: rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 2rem;
+            background: rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(0, 255, 255, 0.2);
-            border-radius: 20px;
+            border-radius: 30px;
             color: #fff;
-            font-size: 16px;
+            font-size: 18px;
             font-family: 'Space Grotesk', monospace;
             transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .form-input:focus {
             outline: none;
             border-color: #00ffff;
-            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+            transform: scale(1.02);
         }
 
         .form-input::placeholder {
             color: rgba(255, 255, 255, 0.2);
+            font-size: 16px;
         }
 
-        /* Info Box */
+        /* ===== PREMIUM INFO BOX ===== */
         .info-box {
-            background: rgba(0, 255, 255, 0.05);
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 1.5rem;
-            margin: 2rem 0;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 30px;
+            padding: 2rem;
+            margin: 2.5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.2), transparent);
+            animation: rotate 8s linear infinite;
         }
 
         .info-title {
+            position: relative;
             color: #00ffff;
             margin-bottom: 1rem;
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
         }
 
         .info-text {
-            color: #aaa;
-            line-height: 1.6;
+            position: relative;
+            color: #ddd;
+            line-height: 1.8;
+            font-size: 16px;
         }
 
-        /* Submit Button */
+        /* ===== PREMIUM BUTTON ===== */
         .submit-btn {
             width: 100%;
-            padding: 1.5rem;
-            font-size: 24px;
+            padding: 1.8rem;
+            font-size: 28px;
             font-weight: 700;
             color: #0a0a0f;
-            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            background: linear-gradient(135deg, #00ffff, #ff00ff, #00ffff);
+            background-size: 200% 200%;
             border: none;
-            border-radius: 30px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.3s ease;
             text-transform: uppercase;
             letter-spacing: 4px;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.5);
+            animation: buttonGradient 3s ease infinite;
+        }
+
+        @keyframes buttonGradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .submit-btn::before {
@@ -222,13 +407,13 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
             transition: left 0.5s ease;
         }
 
         .submit-btn:hover:not(:disabled) {
             transform: scale(1.02);
-            box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+            box-shadow: 0 0 60px rgba(255, 0, 255, 0.7);
         }
 
         .submit-btn:hover:not(:disabled)::before {
@@ -238,105 +423,270 @@
         .submit-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            animation: none;
         }
 
-        /* Status Message */
+        /* ===== PREMIUM STATUS MESSAGES ===== */
         .status-message {
             margin-top: 2rem;
-            padding: 1rem;
-            border-radius: 15px;
+            padding: 1.5rem;
+            border-radius: 30px;
             text-align: center;
-            font-weight: 500;
+            font-weight: 600;
+            font-size: 16px;
             display: none;
+            backdrop-filter: blur(10px);
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .status-message.success {
             display: block;
-            background: rgba(0, 255, 0, 0.1);
+            background: rgba(0, 255, 0, 0.15);
             border: 1px solid #00ff00;
             color: #00ff00;
+            box-shadow: 0 0 30px rgba(0, 255, 0, 0.3);
         }
 
         .status-message.error {
             display: block;
-            background: rgba(255, 0, 0, 0.1);
+            background: rgba(255, 0, 0, 0.15);
             border: 1px solid #ff0000;
             color: #ff0000;
+            box-shadow: 0 0 30px rgba(255, 0, 0, 0.3);
         }
 
         .status-message.pending {
             display: block;
-            background: rgba(255, 255, 0, 0.1);
+            background: rgba(255, 255, 0, 0.15);
             border: 1px solid #ffff00;
             color: #ffff00;
+            box-shadow: 0 0 30px rgba(255, 255, 0, 0.3);
         }
 
-        /* Recent Users */
+        /* ===== PREMIUM RECENT USERS SECTION ===== */
         .recent-users {
-            margin-top: 2rem;
-            background: rgba(10, 10, 20, 0.6);
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(0, 255, 255, 0.2);
-            border-radius: 30px;
-            padding: 2rem;
+            border-radius: 40px;
+            padding: 2.5rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .recent-users h3 {
-            color: #00ffff;
-            margin-bottom: 1rem;
-            font-size: 20px;
+        .recent-users::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.1), transparent 70%);
+            animation: pulse 4s ease infinite;
+        }
+
+        .recent-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .recent-header h3 {
+            font-size: 28px;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .live-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 0, 0, 0.2);
+            border: 1px solid #ff0000;
+            border-radius: 30px;
+            color: #ff0000;
+            font-size: 14px;
+            font-weight: 600;
+            animation: livePulse 1.5s infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 20px rgba(255, 0, 0, 0.5); }
+            50% { opacity: 0.7; box-shadow: 0 0 40px rgba(255, 0, 0, 0.8); }
         }
 
         .user-list {
             display: flex;
             flex-direction: column;
-            gap: 0.8rem;
+            gap: 1rem;
+            position: relative;
+            max-height: 300px;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .user-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .user-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .user-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            border-radius: 10px;
         }
 
         .user-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 0.8rem;
+            gap: 1.5rem;
+            padding: 1.2rem 1.5rem;
             background: rgba(255, 255, 255, 0.03);
             border: 1px solid rgba(0, 255, 255, 0.1);
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .user-item:hover {
+            transform: translateX(10px) scale(1.02);
+            border-color: #00ffff;
+            background: rgba(0, 255, 255, 0.05);
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .user-item:hover::before {
+            opacity: 1;
+        }
+
+        .user-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
             border-radius: 12px;
-            font-family: monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .user-icon span {
+            transform: rotate(-45deg);
         }
 
         .user-address {
             flex: 1;
+            font-family: monospace;
+            font-size: 16px;
             color: #fff;
+            font-weight: 500;
         }
 
         .user-upline {
             color: #00ffff;
             font-size: 14px;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 30px;
+            border: 1px solid rgba(0, 255, 255, 0.3);
         }
 
-        /* Loading */
+        /* ===== ACCESS DENIED ===== */
+        .access-denied {
+            text-align: center;
+            padding: 5rem;
+            background: rgba(255, 0, 0, 0.1);
+            border: 2px solid rgba(255, 0, 0, 0.3);
+            border-radius: 50px;
+            animation: shake 0.5s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
+        }
+
+        .access-denied h2 {
+            font-size: 56px;
+            color: #ff3333;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 0 40px rgba(255, 0, 0, 0.5);
+        }
+
+        .access-denied p {
+            color: #ddd;
+            font-size: 18px;
+            line-height: 1.8;
+        }
+
+        /* ===== LOADING ===== */
         .loading {
             text-align: center;
-            padding: 4rem;
+            padding: 5rem;
         }
 
         .loader {
-            width: 60px;
-            height: 60px;
+            width: 80px;
+            height: 80px;
             border: 4px solid rgba(0, 255, 255, 0.3);
-            border-top-color: #00ffff;
+            border-top: 4px solid #00ffff;
+            border-right: 4px solid #ff00ff;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            margin: 0 auto 2rem;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading p {
+            color: #aaa;
+            font-size: 18px;
+            letter-spacing: 2px;
         }
 
         /* Responsive */
         @media (max-width: 768px) {
             .card-title {
-                font-size: 32px;
+                font-size: 36px;
             }
             
             .add-user-card {
@@ -344,19 +694,25 @@
             }
             
             .submit-btn {
-                font-size: 18px;
+                font-size: 20px;
+                padding: 1.5rem;
+            }
+            
+            .stats-bar {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="grid-overlay"></div>
+    <div class="rainbow-bg"></div>
+    <div class="particles" id="particles"></div>
     
     <div class="container">
         <!-- Header -->
         <div class="header">
             <a href="index.html" class="back-btn">
-                ← Back to Dashboard
+                <span style="font-size: 24px;">←</span> Dashboard
             </a>
             <div class="wallet-info" id="walletAddress">Not Connected</div>
         </div>
@@ -365,16 +721,17 @@
         <div id="mainContent">
             <div class="loading">
                 <div class="loader"></div>
-                <p>Verifying access...</p>
+                <p>CONNECTING TO SIGMA PROTOCOL</p>
             </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
-        // Contract Configuration
-        const CONTRACT_ADDRESS = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
+        // ===== UPDATED CONTRACT CONFIGURATION =====
+        const CONTRACT_ADDRESS = '0x068Aaba73Fd754F21140E2F13DA177ce7251A299';
         
+        // COMPLETE UPDATED ABI (from user)
         const CONTRACT_ABI = [
             {
                 "inputs": [
@@ -392,6 +749,861 @@
                 "name": "adminSetUpline",
                 "outputs": [],
                 "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_usdt",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_creator",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "constructor"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "allowance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "needed",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "ERC20InsufficientAllowance",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "sender",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "balance",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "needed",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "ERC20InsufficientBalance",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "approver",
+                        "type": "address"
+                    }
+                ],
+                "name": "ERC20InvalidApprover",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "receiver",
+                        "type": "address"
+                    }
+                ],
+                "name": "ERC20InvalidReceiver",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "sender",
+                        "type": "address"
+                    }
+                ],
+                "name": "ERC20InvalidSender",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    }
+                ],
+                "name": "ERC20InvalidSpender",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnableInvalidOwner",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnableUnauthorizedAccount",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "p2pTransfer",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "ReentrancyGuardReentrantCall",
+                "type": "error"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "token",
+                        "type": "address"
+                    }
+                ],
+                "name": "SafeERC20FailedOperation",
+                "type": "error"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Approval",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "approve",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "usdtAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "sigmaAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "rate",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Bought",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_usdtAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_upline",
+                        "type": "address"
+                    }
+                ],
+                "name": "buy",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "level",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "string",
+                        "name": "reason",
+                        "type": "string"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "IncomeLapsed",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "previousOwner",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "OwnershipTransferred",
+                "type": "event"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "amount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "level",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "ReferralPaid",
+                "type": "event"
+            },
+            {
+                "inputs": [],
+                "name": "renounceOwnership",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_sigmaAmount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "sell",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "user",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "sigmaAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "usdtAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "rate",
+                        "type": "uint256"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Sold",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "transfer",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "anonymous": false,
+                "inputs": [
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": true,
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "indexed": false,
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "Transfer",
+                "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "transferFrom",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "newOwner",
+                        "type": "address"
+                    }
+                ],
+                "name": "transferOwnership",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "owner",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    }
+                ],
+                "name": "allowance",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "ath",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "atl",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "account",
+                        "type": "address"
+                    }
+                ],
+                "name": "balanceOf",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "BASE_RATE",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "creatorWallet",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "currentRate",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "dailyHistory",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "open",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "high",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "low",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "close",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "timestamp",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "decimals",
+                "outputs": [
+                    {
+                        "internalType": "uint8",
+                        "name": "",
+                        "type": "uint8"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "getSellRate",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "INCREMENT",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_upline",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_level",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "isLevelUnlocked",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "lastHistoryDay",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "levelRewards",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MAX_SIGMA_BUY",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MIN_FOR_RENEWAL",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MIN_HOLD_VALUE",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "name",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "owner",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "symbol",
+                "outputs": [
+                    {
+                        "internalType": "string",
+                        "name": "",
+                        "type": "string"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "totalSupply",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "usdt",
+                "outputs": [
+                    {
+                        "internalType": "contract IERC20",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
                 "type": "function"
             },
             {
@@ -430,6 +1642,11 @@
                         "type": "uint256"
                     },
                     {
+                        "internalType": "uint256",
+                        "name": "qualifiedDirectsCount",
+                        "type": "uint256"
+                    },
+                    {
                         "internalType": "bool",
                         "name": "hasBought",
                         "type": "bool"
@@ -438,19 +1655,11 @@
                         "internalType": "bool",
                         "name": "isInitialized",
                         "type": "bool"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "creatorWallet",
-                "outputs": [
+                    },
                     {
-                        "internalType": "address",
-                        "name": "",
-                        "type": "address"
+                        "internalType": "bool",
+                        "name": "isCurrentlyQualified",
+                        "type": "bool"
                     }
                 ],
                 "stateMutability": "view",
@@ -463,8 +1672,23 @@
         let userAddress;
         let addedUsers = [];
 
+        // Create particles
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+                container.appendChild(particle);
+            }
+        }
+
         // Initialize Web3
         async function initWeb3() {
+            createParticles();
+            
             if (window.ethereum) {
                 web3 = new Web3(window.ethereum);
                 try {
@@ -479,8 +1703,6 @@
                     
                     // Get creator wallet from contract
                     const creatorWalletFromContract = await contract.methods.creatorWallet().call();
-                    console.log('Creator wallet from contract:', creatorWalletFromContract);
-                    console.log('Connected wallet:', userAddress);
                     
                     // Check if user is creator
                     if (userAddress.toLowerCase() === creatorWalletFromContract.toLowerCase()) {
@@ -496,8 +1718,8 @@
             } else {
                 document.getElementById('mainContent').innerHTML = `
                     <div class="access-denied">
-                        <h2>⚠️ MetaMask Required</h2>
-                        <p>Please install MetaMask to access this page</p>
+                        <h2>⚠️ METAMASK REQUIRED</h2>
+                        <p>Please install MetaMask to access the admin panel</p>
                     </div>
                 `;
             }
@@ -506,47 +1728,115 @@
         // Load Add User Form
         function loadAddUserForm() {
             document.getElementById('mainContent').innerHTML = `
+                <!-- Stats Bar -->
+                <div class="stats-bar">
+                    <div class="stat-pill">
+                        <div class="stat-label">Total Users</div>
+                        <div class="stat-value" id="totalUsers">--</div>
+                    </div>
+                    <div class="stat-pill">
+                        <div class="stat-label">Network Status</div>
+                        <div class="stat-value" style="color: #00ff00;">● ACTIVE</div>
+                    </div>
+                    <div class="stat-pill">
+                        <div class="stat-label">Gas Price</div>
+                        <div class="stat-value" id="gasPrice">-- Gwei</div>
+                    </div>
+                </div>
+
+                <!-- Main Card -->
                 <div class="add-user-card">
                     <div class="card-content">
                         <h1 class="card-title">ADD NEW USER</h1>
-                        <p class="card-subtitle">Set upline relationship for new users</p>
+                        <p class="card-subtitle">Set upline relationship for network expansion</p>
                         
                         <div class="form-group">
-                            <label class="form-label">User Address</label>
+                            <label class="form-label">
+                                <span>👤</span> USER ADDRESS
+                            </label>
                             <input type="text" class="form-input" id="userAddress" 
                                    placeholder="0x...">
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Upline Address</label>
+                            <label class="form-label">
+                                <span>⬆️</span> UPLINE ADDRESS
+                            </label>
                             <input type="text" class="form-input" id="uplineAddress" 
                                    placeholder="0x...">
                         </div>
                         
                         <div class="info-box">
-                            <div class="info-title">ℹ️ About This Action</div>
+                            <div class="info-title">
+                                <span>ℹ️</span> ABOUT THIS ACTION
+                            </div>
                             <div class="info-text">
-                                This will set the upline relationship for the user. 
-                                The upline will receive referral rewards when the user makes purchases.
-                                This action can only be performed by the creator wallet.
+                                This will establish the referral relationship. The upline will receive 
+                                rewards from all future purchases made by this user. This is a one-time 
+                                setup that can only be performed by the protocol creator.
                             </div>
                         </div>
                         
                         <button class="submit-btn" onclick="addUser()" id="submitBtn">
-                            ADD USER
+                            ADD TO NETWORK
                         </button>
                         
                         <div class="status-message" id="statusMessage"></div>
                     </div>
                 </div>
                 
-                <div class="recent-users" id="recentUsers">
-                    <h3>Recently Added</h3>
+                <!-- Recent Users -->
+                <div class="recent-users">
+                    <div class="recent-header">
+                        <h3>RECENT ADDITIONS</h3>
+                        <span class="live-badge">🔴 LIVE</span>
+                    </div>
                     <div class="user-list" id="userList">
-                        <div style="color: #888; text-align: center;">No users added yet</div>
+                        <div style="color: #888; text-align: center; padding: 2rem;">No users added yet</div>
                     </div>
                 </div>
             `;
+            
+            // Fetch and display total users count
+            fetchTotalUsers();
+            
+            // Update gas price
+            updateGasPrice();
+            setInterval(updateGasPrice, 15000);
+        }
+
+        // Fetch total users from contract
+        async function fetchTotalUsers() {
+            try {
+                // Get all Bought events to count unique users
+                const boughtEvents = await contract.getPastEvents('Bought', {
+                    fromBlock: 0,
+                    toBlock: 'latest'
+                });
+                
+                const uniqueUsers = new Set();
+                boughtEvents.forEach(event => {
+                    uniqueUsers.add(event.returnValues.user.toLowerCase());
+                });
+                
+                document.getElementById('totalUsers').textContent = uniqueUsers.size;
+                
+            } catch (error) {
+                console.error('Error fetching users:', error);
+                document.getElementById('totalUsers').textContent = '--';
+            }
+        }
+
+        // Update gas price
+        async function updateGasPrice() {
+            try {
+                const gasPrice = await web3.eth.getGasPrice();
+                const gasPriceGwei = web3.utils.fromWei(gasPrice, 'gwei');
+                document.getElementById('gasPrice').textContent = 
+                    parseFloat(gasPriceGwei).toFixed(1) + ' Gwei';
+            } catch (error) {
+                console.error('Error fetching gas price:', error);
+            }
         }
 
         // Add User function
@@ -558,30 +1848,39 @@
             
             // Validate addresses
             if (!web3.utils.isAddress(userInput)) {
-                showStatus('Invalid user address', 'error');
+                showStatus('Invalid user address format', 'error');
                 return;
             }
             
             if (!web3.utils.isAddress(uplineInput)) {
-                showStatus('Invalid upline address', 'error');
+                showStatus('Invalid upline address format', 'error');
+                return;
+            }
+            
+            if (userInput.toLowerCase() === uplineInput.toLowerCase()) {
+                showStatus('User and upline cannot be the same', 'error');
                 return;
             }
             
             try {
                 // Disable button
                 submitBtn.disabled = true;
-                showStatus('Processing transaction...', 'pending');
+                showStatus('Processing transaction on Sigma Protocol...', 'pending');
                 
-                // Call contract
-                const gasEstimate = await contract.methods.adminSetUpline(userInput, uplineInput).estimateGas({ from: userAddress });
+                // Estimate gas
+                const gasEstimate = await contract.methods.adminSetUpline(userInput, uplineInput).estimateGas({ 
+                    from: userAddress 
+                });
                 
+                // Send transaction
                 const result = await contract.methods.adminSetUpline(userInput, uplineInput).send({
                     from: userAddress,
-                    gas: Math.floor(gasEstimate * 1.2) // Add 20% buffer
+                    gas: Math.floor(gasEstimate * 1.2), // 20% buffer
+                    gasPrice: await web3.eth.getGasPrice()
                 });
                 
                 // Success
-                showStatus('User added successfully!', 'success');
+                showStatus('✅ User added successfully! Upline relationship established.', 'success');
                 
                 // Add to recent list
                 addToRecentList(userInput, uplineInput);
@@ -590,9 +1889,24 @@
                 document.getElementById('userAddress').value = '';
                 document.getElementById('uplineAddress').value = '';
                 
+                // Update user count
+                fetchTotalUsers();
+                
             } catch (error) {
                 console.error('Error adding user:', error);
-                showStatus(error.message || 'Transaction failed', 'error');
+                
+                let errorMessage = 'Transaction failed';
+                if (error.message.includes('user rejected')) {
+                    errorMessage = 'Transaction rejected by user';
+                } else if (error.message.includes('insufficient funds')) {
+                    errorMessage = 'Insufficient POL for gas';
+                } else if (error.message.includes('already has an upline')) {
+                    errorMessage = 'User already has an upline';
+                } else if (error.message.includes('Ownable: caller is not the owner')) {
+                    errorMessage = 'Only creator can add users';
+                }
+                
+                showStatus('❌ ' + errorMessage, 'error');
             } finally {
                 submitBtn.disabled = false;
             }
@@ -614,10 +1928,10 @@
 
         // Add to recent list
         function addToRecentList(user, upline) {
-            addedUsers.unshift({ user, upline, time: new Date() });
+            addedUsers.unshift({ user, upline });
             
-            // Keep only last 5
-            if (addedUsers.length > 5) {
+            // Keep only last 8
+            if (addedUsers.length > 8) {
                 addedUsers.pop();
             }
             
@@ -630,15 +1944,18 @@
             if (!userList) return;
             
             if (addedUsers.length === 0) {
-                userList.innerHTML = '<div style="color: #888; text-align: center;">No users added yet</div>';
+                userList.innerHTML = '<div style="color: #888; text-align: center; padding: 2rem;">No users added yet</div>';
                 return;
             }
             
             let html = '';
-            addedUsers.forEach(item => {
+            addedUsers.forEach((item, index) => {
                 html += `
                     <div class="user-item">
-                        <span class="user-address">${item.user.substring(0, 6)}...${item.user.substring(38)}</span>
+                        <div class="user-icon">
+                            <span>${index + 1}</span>
+                        </div>
+                        <span class="user-address">${item.user.substring(0, 8)}...${item.user.substring(36)}</span>
                         <span class="user-upline">↑ ${item.upline.substring(0, 6)}...${item.upline.substring(38)}</span>
                     </div>
                 `;
@@ -650,16 +1967,22 @@
         // Show Access Denied
         function showAccessDenied(creatorWalletFromContract = null) {
             const expectedWallet = creatorWalletFromContract ? 
-                creatorWalletFromContract.substring(0, 6) + '...' + creatorWalletFromContract.substring(38) : 
+                creatorWalletFromContract.substring(0, 8) + '...' + creatorWalletFromContract.substring(36) : 
                 'Unknown';
             
             document.getElementById('mainContent').innerHTML = `
                 <div class="access-denied">
                     <h2>🔒 ACCESS DENIED</h2>
-                    <p>This page is only accessible by the creator wallet</p>
-                    <p style="margin-top: 1rem; font-size: 14px;">Connected: ${userAddress ? userAddress.substring(0, 6) + '...' + userAddress.substring(38) : 'Not connected'}</p>
-                    <p style="margin-top: 0.5rem; font-size: 12px; color: #ff6666;">Required Creator: ${expectedWallet}</p>
-                    <p style="margin-top: 1rem; font-size: 12px; color: #aaa;">Please connect with the correct wallet</p>
+                    <p>This page is only accessible by the protocol creator</p>
+                    <p style="margin-top: 2rem; font-size: 16px; color: #ff6666;">
+                        Connected: ${userAddress ? userAddress.substring(0, 8) + '...' + userAddress.substring(36) : 'Not connected'}
+                    </p>
+                    <p style="margin-top: 1rem; font-size: 14px; color: #00ffff;">
+                        Required Creator: ${expectedWallet}
+                    </p>
+                    <p style="margin-top: 2rem; font-size: 14px; color: #aaa;">
+                        Please connect with the correct wallet to access this panel
+                    </p>
                 </div>
             `;
         }
