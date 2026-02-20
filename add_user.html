@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sigma Protocol | Add Users</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: radial-gradient(circle at 20% 30%, #1a1a2e, #0a0a0f);
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23ffffff" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23ffffff" stroke-width="0.5"/></svg>');
+            background-size: 100px 100px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Cyber grid effect */
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 2rem;
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            margin-bottom: 2rem;
+        }
+
+        .back-btn {
+            color: #00ffff;
+            text-decoration: none;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            text-shadow: 0 0 20px #00ffff;
+            transform: translateX(-5px);
+        }
+
+        .wallet-info {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.3);
+            border-radius: 50px;
+            font-family: monospace;
+            color: #00ffff;
+        }
+
+        /* Main Card */
+        .add-user-card {
+            background: rgba(10, 10, 20, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 40px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .add-user-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+            animation: rotate 10s linear infinite;
+            z-index: 0;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .card-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-title {
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #fff, #00ffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .card-subtitle {
+            color: #888;
+            margin-bottom: 2rem;
+            font-size: 16px;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            color: #00ffff;
+            margin-bottom: 0.8rem;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            color: #fff;
+            font-size: 16px;
+            font-family: 'Space Grotesk', monospace;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Info Box */
+        .info-box {
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-title {
+            color: #00ffff;
+            margin-bottom: 1rem;
+            font-size: 18px;
+        }
+
+        .info-text {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Submit Button */
+        .submit-btn {
+            width: 100%;
+            padding: 1.5rem;
+            font-size: 24px;
+            font-weight: 700;
+            color: #0a0a0f;
+            background: linear-gradient(135deg, #00ffff, #ff00ff);
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover:not(:disabled) {
+            transform: scale(1.02);
+            box-shadow: 0 0 50px rgba(255, 0, 255, 0.5);
+        }
+
+        .submit-btn:hover:not(:disabled)::before {
+            left: 100%;
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Status Message */
+        .status-message {
+            margin-top: 2rem;
+            padding: 1rem;
+            border-radius: 15px;
+            text-align: center;
+            font-weight: 500;
+            display: none;
+        }
+
+        .status-message.success {
+            display: block;
+            background: rgba(0, 255, 0, 0.1);
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .status-message.error {
+            display: block;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid #ff0000;
+            color: #ff0000;
+        }
+
+        .status-message.pending {
+            display: block;
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            color: #ffff00;
+        }
+
+        /* Recent Users */
+        .recent-users {
+            margin-top: 2rem;
+            background: rgba(10, 10, 20, 0.6);
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            border-radius: 30px;
+            padding: 2rem;
+        }
+
+        .recent-users h3 {
+            color: #00ffff;
+            margin-bottom: 1rem;
+            font-size: 20px;
+        }
+
+        .user-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            border-radius: 12px;
+            font-family: monospace;
+        }
+
+        .user-address {
+            flex: 1;
+            color: #fff;
+        }
+
+        .user-upline {
+            color: #00ffff;
+            font-size: 14px;
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 4rem;
+        }
+
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(0, 255, 255, 0.3);
+            border-top-color: #00ffff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .card-title {
+                font-size: 32px;
+            }
+            
+            .add-user-card {
+                padding: 2rem;
+            }
+            
+            .submit-btn {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+    
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <a href="index.html" class="back-btn">
+                ← Back to Dashboard
+            </a>
+            <div class="wallet-info" id="walletAddress">Not Connected</div>
+        </div>
+
+        <!-- Main Content -->
+        <div id="mainContent">
+            <div class="loading">
+                <div class="loader"></div>
+                <p>Verifying access...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+    <script>
+        // Contract Configuration
+        const CONTRACT_ADDRESS = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
+        const CREATOR_WALLET = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
+        
+        const CONTRACT_ABI = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_user",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_upline",
+                        "type": "address"
+                    }
+                ],
+                "name": "adminSetUpline",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "name": "users",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "upline",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "referralExpiry",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "totalReferralEarned",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastBuyTimestamp",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "lastActionBlock",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "hasBought",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "isInitialized",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            }
+        ];
+
+        let web3;
+        let contract;
+        let userAddress;
+        let addedUsers = [];
+
+        // Initialize Web3
+        async function initWeb3() {
+            if (window.ethereum) {
+                web3 = new Web3(window.ethereum);
+                try {
+                    await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    const accounts = await web3.eth.getAccounts();
+                    userAddress = accounts[0];
+                    
+                    document.getElementById('walletAddress').textContent = 
+                        userAddress.substring(0, 6) + '...' + userAddress.substring(38);
+                    
+                    contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
+                    
+                    // Check if user is creator
+                    if (userAddress.toLowerCase() === CREATOR_WALLET.toLowerCase()) {
+                        loadAddUserForm();
+                    } else {
+                        showAccessDenied();
+                    }
+                    
+                } catch (error) {
+                    console.error('Error:', error);
+                    showAccessDenied();
+                }
+            } else {
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="access-denied">
+                        <h2>⚠️ MetaMask Required</h2>
+                        <p>Please install MetaMask to access this page</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Load Add User Form
+        function loadAddUserForm() {
+            document.getElementById('mainContent').innerHTML = `
+                <div class="add-user-card">
+                    <div class="card-content">
+                        <h1 class="card-title">ADD NEW USER</h1>
+                        <p class="card-subtitle">Set upline relationship for new users</p>
+                        
+                        <div class="form-group">
+                            <label class="form-label">User Address</label>
+                            <input type="text" class="form-input" id="userAddress" 
+                                   placeholder="0x...">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Upline Address</label>
+                            <input type="text" class="form-input" id="uplineAddress" 
+                                   placeholder="0x...">
+                        </div>
+                        
+                        <div class="info-box">
+                            <div class="info-title">ℹ️ About This Action</div>
+                            <div class="info-text">
+                                This will set the upline relationship for the user. 
+                                The upline will receive referral rewards when the user makes purchases.
+                                This action can only be performed by the creator wallet.
+                            </div>
+                        </div>
+                        
+                        <button class="submit-btn" onclick="addUser()" id="submitBtn">
+                            ADD USER
+                        </button>
+                        
+                        <div class="status-message" id="statusMessage"></div>
+                    </div>
+                </div>
+                
+                <div class="recent-users" id="recentUsers">
+                    <h3>Recently Added</h3>
+                    <div class="user-list" id="userList">
+                        <div style="color: #888; text-align: center;">No users added yet</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Add User function
+        async function addUser() {
+            const userInput = document.getElementById('userAddress').value.trim();
+            const uplineInput = document.getElementById('uplineAddress').value.trim();
+            const submitBtn = document.getElementById('submitBtn');
+            const statusMessage = document.getElementById('statusMessage');
+            
+            // Validate addresses
+            if (!web3.utils.isAddress(userInput)) {
+                showStatus('Invalid user address', 'error');
+                return;
+            }
+            
+            if (!web3.utils.isAddress(uplineInput)) {
+                showStatus('Invalid upline address', 'error');
+                return;
+            }
+            
+            try {
+                // Disable button
+                submitBtn.disabled = true;
+                showStatus('Processing transaction...', 'pending');
+                
+                // Call contract
+                const gasEstimate = await contract.methods.adminSetUpline(userInput, uplineInput).estimateGas({ from: userAddress });
+                
+                const result = await contract.methods.adminSetUpline(userInput, uplineInput).send({
+                    from: userAddress,
+                    gas: Math.floor(gasEstimate * 1.2) // Add 20% buffer
+                });
+                
+                // Success
+                showStatus('User added successfully!', 'success');
+                
+                // Add to recent list
+                addToRecentList(userInput, uplineInput);
+                
+                // Clear inputs
+                document.getElementById('userAddress').value = '';
+                document.getElementById('uplineAddress').value = '';
+                
+            } catch (error) {
+                console.error('Error adding user:', error);
+                showStatus(error.message || 'Transaction failed', 'error');
+            } finally {
+                submitBtn.disabled = false;
+            }
+        }
+
+        // Show status message
+        function showStatus(message, type) {
+            const statusMessage = document.getElementById('statusMessage');
+            statusMessage.className = 'status-message ' + type;
+            statusMessage.textContent = message;
+            
+            // Auto hide after 5 seconds for success
+            if (type === 'success') {
+                setTimeout(() => {
+                    statusMessage.style.display = 'none';
+                }, 5000);
+            }
+        }
+
+        // Add to recent list
+        function addToRecentList(user, upline) {
+            addedUsers.unshift({ user, upline, time: new Date() });
+            
+            // Keep only last 5
+            if (addedUsers.length > 5) {
+                addedUsers.pop();
+            }
+            
+            updateRecentList();
+        }
+
+        // Update recent list display
+        function updateRecentList() {
+            const userList = document.getElementById('userList');
+            if (!userList) return;
+            
+            if (addedUsers.length === 0) {
+                userList.innerHTML = '<div style="color: #888; text-align: center;">No users added yet</div>';
+                return;
+            }
+            
+            let html = '';
+            addedUsers.forEach(item => {
+                html += `
+                    <div class="user-item">
+                        <span class="user-address">${item.user.substring(0, 6)}...${item.user.substring(38)}</span>
+                        <span class="user-upline">↑ ${item.upline.substring(0, 6)}...${item.upline.substring(38)}</span>
+                    </div>
+                `;
+            });
+            
+            userList.innerHTML = html;
+        }
+
+        // Show Access Denied
+        function showAccessDenied() {
+            document.getElementById('mainContent').innerHTML = `
+                <div class="access-denied">
+                    <h2>🔒 ACCESS DENIED</h2>
+                    <p>This page is only accessible by the creator wallet</p>
+                    <p style="margin-top: 1rem; font-size: 14px;">Connected: ${userAddress ? userAddress.substring(0, 6) + '...' + userAddress.substring(38) : 'Not connected'}</p>
+                </div>
+            `;
+        }
+
+        // Initialize on load
+        window.addEventListener('load', initWeb3);
+    </script>
+</body>
+</html>
