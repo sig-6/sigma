@@ -374,7 +374,6 @@
     <script>
         // Contract Configuration
         const CONTRACT_ADDRESS = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
-        const CREATOR_WALLET = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
         
         const CONTRACT_ABI = [
             {
@@ -443,6 +442,19 @@
                 ],
                 "stateMutability": "view",
                 "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "creatorWallet",
+                "outputs": [
+                    {
+                        "internalType": "address",
+                        "name": "",
+                        "type": "address"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
             }
         ];
 
@@ -465,11 +477,16 @@
                     
                     contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
                     
+                    // Get creator wallet from contract
+                    const creatorWalletFromContract = await contract.methods.creatorWallet().call();
+                    console.log('Creator wallet from contract:', creatorWalletFromContract);
+                    console.log('Connected wallet:', userAddress);
+                    
                     // Check if user is creator
-                    if (userAddress.toLowerCase() === CREATOR_WALLET.toLowerCase()) {
+                    if (userAddress.toLowerCase() === creatorWalletFromContract.toLowerCase()) {
                         loadAddUserForm();
                     } else {
-                        showAccessDenied();
+                        showAccessDenied(creatorWalletFromContract);
                     }
                     
                 } catch (error) {
@@ -631,12 +648,18 @@
         }
 
         // Show Access Denied
-        function showAccessDenied() {
+        function showAccessDenied(creatorWalletFromContract = null) {
+            const expectedWallet = creatorWalletFromContract ? 
+                creatorWalletFromContract.substring(0, 6) + '...' + creatorWalletFromContract.substring(38) : 
+                'Unknown';
+            
             document.getElementById('mainContent').innerHTML = `
                 <div class="access-denied">
                     <h2>🔒 ACCESS DENIED</h2>
                     <p>This page is only accessible by the creator wallet</p>
                     <p style="margin-top: 1rem; font-size: 14px;">Connected: ${userAddress ? userAddress.substring(0, 6) + '...' + userAddress.substring(38) : 'Not connected'}</p>
+                    <p style="margin-top: 0.5rem; font-size: 12px; color: #ff6666;">Required Creator: ${expectedWallet}</p>
+                    <p style="margin-top: 1rem; font-size: 12px; color: #aaa;">Please connect with the correct wallet</p>
                 </div>
             `;
         }
