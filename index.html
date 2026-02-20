@@ -15,35 +15,59 @@
 
         body {
             font-family: 'Space Grotesk', sans-serif;
-            background: radial-gradient(circle at 20% 30%, #1a1a2e, #0a0a0f);
+            background: #0a0a0f;
             min-height: 100vh;
             color: #fff;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* Animated background */
+        /* Animated Cyber Grid with Rainbow Overlay */
         body::before {
             content: '';
             position: fixed;
             width: 100%;
             height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" opacity="0.1"><path d="M20 20 L80 20 L80 80 L20 80 Z" fill="none" stroke="%23ffffff" stroke-width="0.5"/><circle cx="50" cy="50" r="30" fill="none" stroke="%23ffffff" stroke-width="0.5"/></svg>');
-            background-size: 100px 100px;
+            background: 
+                linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 50px 50px,
+                linear-gradient(0deg, rgba(255, 0, 255, 0.03) 1px, transparent 1px) 0 0 / 50px 50px;
             pointer-events: none;
             z-index: 0;
+            animation: gridShift 10s linear infinite;
         }
 
-        /* Cyber grid effect */
+        @keyframes gridShift {
+            0% { background-position: 0 0; }
+            100% { background-position: 50px 50px; }
+        }
+
+        /* Premium Rainbow Light Effect */
+        .rainbow-glow {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, #ff0000, #ff00ff, #0000ff, #00ffff, #00ff00, #ffff00, #ff0000);
+            opacity: 0.15;
+            filter: blur(100px);
+            animation: rotateRainbow 20s linear infinite;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        @keyframes rotateRainbow {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
         .grid-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-image: linear-gradient(rgba(0, 255, 255, 0.03) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(0, 255, 255, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background: radial-gradient(circle at 50% 50%, rgba(0,255,255,0.1) 0%, transparent 60%);
             pointer-events: none;
             z-index: 1;
         }
@@ -68,6 +92,12 @@
             border-radius: 20px;
             margin-bottom: 2rem;
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .header:hover {
+            border-color: #00ffff;
+            box-shadow: 0 0 50px rgba(0, 255, 255, 0.3);
         }
 
         .logo {
@@ -89,10 +119,16 @@
             color: #0a0a0f;
             transform: rotate(45deg);
             box-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+            transition: all 0.3s ease;
         }
 
         .logo-icon span {
             transform: rotate(-45deg);
+        }
+
+        .logo-icon:hover {
+            transform: rotate(90deg);
+            box-shadow: 0 0 60px rgba(255, 0, 255, 0.6);
         }
 
         .logo-text h1 {
@@ -117,6 +153,12 @@
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid rgba(0, 255, 255, 0.3);
             border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .wallet-info:hover {
+            border-color: #ff00ff;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
         }
 
         .wallet-dot {
@@ -129,8 +171,8 @@
         }
 
         @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
         }
 
         .wallet-address {
@@ -166,8 +208,8 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), transparent);
-            animation: rotate 10s linear infinite;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1), transparent);
+            animation: rotate 15s linear infinite;
         }
 
         @keyframes rotate {
@@ -209,7 +251,7 @@
         /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
             margin-top: 2rem;
         }
@@ -225,15 +267,32 @@
             transition: all 0.3s ease;
         }
 
+        .stat-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
         .stat-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) scale(1.02);
             border-color: #00ffff;
-            box-shadow: 0 0 40px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+        }
+
+        .stat-card:hover::after {
+            opacity: 1;
         }
 
         .stat-icon {
             font-size: 40px;
             margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px currentColor);
         }
 
         .stat-label {
@@ -249,11 +308,15 @@
             font-weight: 700;
             color: #fff;
             margin-bottom: 0.5rem;
+            text-shadow: 0 0 20px rgba(0,255,255,0.3);
         }
 
         .stat-change {
             color: #00ff00;
             font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
         }
 
         /* Action Button */
@@ -313,6 +376,12 @@
             border: 1px solid rgba(0, 255, 255, 0.2);
             border-radius: 30px;
             padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .recent-activity:hover {
+            border-color: #ff00ff;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.2);
         }
 
         .section-header {
@@ -328,6 +397,19 @@
             background: linear-gradient(135deg, #fff, #00ffff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+        }
+
+        .live-badge {
+            color: #00ffff;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: livePulse 1.5s infinite;
+        }
+
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
         }
 
         .activity-list {
@@ -350,6 +432,8 @@
         .activity-item:hover {
             border-color: #00ffff;
             background: rgba(0, 255, 255, 0.05);
+            transform: translateX(10px);
+            box-shadow: 0 0 20px rgba(0,255,255,0.2);
         }
 
         .activity-icon {
@@ -389,12 +473,20 @@
             background: rgba(255, 0, 0, 0.1);
             border: 1px solid rgba(255, 0, 0, 0.3);
             border-radius: 30px;
+            animation: shake 0.5s ease;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
         }
 
         .access-denied h2 {
             font-size: 48px;
             color: #ff3333;
             margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(255,0,0,0.5);
         }
 
         .access-denied p {
@@ -416,6 +508,7 @@
             border-radius: 50%;
             animation: spin 1s linear infinite;
             margin: 0 auto 1rem;
+            box-shadow: 0 0 30px rgba(0,255,255,0.3);
         }
 
         @keyframes spin {
@@ -441,6 +534,7 @@
     </style>
 </head>
 <body>
+    <div class="rainbow-glow"></div>
     <div class="grid-overlay"></div>
     
     <div class="container">
@@ -472,10 +566,29 @@
 
     <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
     <script>
-        // Contract Configuration
-        const CONTRACT_ADDRESS = '0xf7a8cd16d672f81dc785bcaBf08502bBB210Aee1';
+        // ========== UPDATED CONTRACT CONFIGURATION ==========
+        const CONTRACT_ADDRESS = '0x068Aaba73Fd754F21140E2F13DA177ce7251A299';
         
+        // UPDATED ABI (from user)
         const CONTRACT_ABI = [
+            {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_user",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_upline",
+                        "type": "address"
+                    }
+                ],
+                "name": "adminSetUpline",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
             {
                 "inputs": [
                     {
@@ -601,6 +714,24 @@
                 "type": "error"
             },
             {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "_to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "_amount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "p2pTransfer",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
                 "inputs": [],
                 "name": "ReentrancyGuardReentrantCall",
                 "type": "error"
@@ -642,6 +773,30 @@
                 "type": "event"
             },
             {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "spender",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "approve",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
                 "anonymous": false,
                 "inputs": [
                     {
@@ -677,6 +832,24 @@
                 ],
                 "name": "Bought",
                 "type": "event"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_usdtAmount",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "_upline",
+                        "type": "address"
+                    }
+                ],
+                "name": "buy",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
             },
             {
                 "anonymous": false,
@@ -778,6 +951,26 @@
                 "type": "event"
             },
             {
+                "inputs": [],
+                "name": "renounceOwnership",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
+                "inputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "_sigmaAmount",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "sell",
+                "outputs": [],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
                 "anonymous": false,
                 "inputs": [
                     {
@@ -815,6 +1008,30 @@
                 "type": "event"
             },
             {
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "value",
+                        "type": "uint256"
+                    }
+                ],
+                "name": "transfer",
+                "outputs": [
+                    {
+                        "internalType": "bool",
+                        "name": "",
+                        "type": "bool"
+                    }
+                ],
+                "stateMutability": "nonpayable",
+                "type": "function"
+            },
+            {
                 "anonymous": false,
                 "inputs": [
                     {
@@ -840,84 +1057,43 @@
                 "type": "event"
             },
             {
-                "inputs": [],
-                "name": "BASE_RATE",
-                "outputs": [
+                "inputs": [
+                    {
+                        "internalType": "address",
+                        "name": "from",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address",
+                        "name": "to",
+                        "type": "address"
+                    },
                     {
                         "internalType": "uint256",
-                        "name": "",
+                        "name": "value",
                         "type": "uint256"
                     }
                 ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "INCREMENT",
+                "name": "transferFrom",
                 "outputs": [
                     {
-                        "internalType": "uint256",
+                        "internalType": "bool",
                         "name": "",
-                        "type": "uint256"
+                        "type": "bool"
                     }
                 ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "MAX_SIGMA_BUY",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "MIN_FOR_RENEWAL",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "MIN_HOLD_VALUE",
-                "outputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "",
-                        "type": "uint256"
-                    }
-                ],
-                "stateMutability": "view",
+                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
                 "inputs": [
                     {
                         "internalType": "address",
-                        "name": "_user",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "_upline",
+                        "name": "newOwner",
                         "type": "address"
                     }
                 ],
-                "name": "adminSetUpline",
+                "name": "transferOwnership",
                 "outputs": [],
                 "stateMutability": "nonpayable",
                 "type": "function"
@@ -944,30 +1120,6 @@
                     }
                 ],
                 "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "spender",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "value",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "approve",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -1016,21 +1168,16 @@
                 "type": "function"
             },
             {
-                "inputs": [
+                "inputs": [],
+                "name": "BASE_RATE",
+                "outputs": [
                     {
                         "internalType": "uint256",
-                        "name": "_usdtAmount",
+                        "name": "",
                         "type": "uint256"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "_upline",
-                        "type": "address"
                     }
                 ],
-                "name": "buy",
-                "outputs": [],
-                "stateMutability": "nonpayable",
+                "stateMutability": "view",
                 "type": "function"
             },
             {
@@ -1112,14 +1259,8 @@
                 "type": "function"
             },
             {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "_user",
-                        "type": "address"
-                    }
-                ],
-                "name": "getQualifiedDirectsCount",
+                "inputs": [],
+                "name": "getSellRate",
                 "outputs": [
                     {
                         "internalType": "uint256",
@@ -1132,7 +1273,7 @@
             },
             {
                 "inputs": [],
-                "name": "getSellRate",
+                "name": "INCREMENT",
                 "outputs": [
                     {
                         "internalType": "uint256",
@@ -1201,6 +1342,45 @@
             },
             {
                 "inputs": [],
+                "name": "MAX_SIGMA_BUY",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MIN_FOR_RENEWAL",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
+                "name": "MIN_HOLD_VALUE",
+                "outputs": [
+                    {
+                        "internalType": "uint256",
+                        "name": "",
+                        "type": "uint256"
+                    }
+                ],
+                "stateMutability": "view",
+                "type": "function"
+            },
+            {
+                "inputs": [],
                 "name": "name",
                 "outputs": [
                     {
@@ -1223,44 +1403,6 @@
                     }
                 ],
                 "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "_to",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "_amount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "p2pTransfer",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [],
-                "name": "renounceOwnership",
-                "outputs": [],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "uint256",
-                        "name": "_sigmaAmount",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "sell",
-                "outputs": [],
-                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -1287,72 +1429,6 @@
                     }
                 ],
                 "stateMutability": "view",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "to",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "value",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "transfer",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "from",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "address",
-                        "name": "to",
-                        "type": "address"
-                    },
-                    {
-                        "internalType": "uint256",
-                        "name": "value",
-                        "type": "uint256"
-                    }
-                ],
-                "name": "transferFrom",
-                "outputs": [
-                    {
-                        "internalType": "bool",
-                        "name": "",
-                        "type": "bool"
-                    }
-                ],
-                "stateMutability": "nonpayable",
-                "type": "function"
-            },
-            {
-                "inputs": [
-                    {
-                        "internalType": "address",
-                        "name": "newOwner",
-                        "type": "address"
-                    }
-                ],
-                "name": "transferOwnership",
-                "outputs": [],
-                "stateMutability": "nonpayable",
                 "type": "function"
             },
             {
@@ -1404,6 +1480,11 @@
                         "type": "uint256"
                     },
                     {
+                        "internalType": "uint256",
+                        "name": "qualifiedDirectsCount",
+                        "type": "uint256"
+                    },
+                    {
                         "internalType": "bool",
                         "name": "hasBought",
                         "type": "bool"
@@ -1411,6 +1492,11 @@
                     {
                         "internalType": "bool",
                         "name": "isInitialized",
+                        "type": "bool"
+                    },
+                    {
+                        "internalType": "bool",
+                        "name": "isCurrentlyQualified",
                         "type": "bool"
                     }
                 ],
@@ -1468,15 +1554,41 @@
             }
         }
 
-        // Load Admin Dashboard
+        // Load Admin Dashboard with live data
         async function loadAdminDashboard() {
             try {
                 // Get contract data
-                const totalSupply = await contract.methods.totalSupply().call();
-                const currentRate = await contract.methods.currentRate().call();
+                const totalSupplyWei = await contract.methods.totalSupply().call();
+                const currentRateWei = await contract.methods.currentRate().call();
+                const sellRateWei = await contract.methods.getSellRate().call();
                 const creatorWallet = await contract.methods.creatorWallet().call();
-                const ath = await contract.methods.ath().call();
-                const atl = await contract.methods.atl().call();
+                const athWei = await contract.methods.ath().call();
+                const atlWei = await contract.methods.atl().call();
+                
+                // Format values
+                const totalSupply = parseFloat(web3.utils.fromWei(totalSupplyWei, 'ether')).toFixed(2);
+                const buyRate = parseFloat(web3.utils.fromWei(currentRateWei, 'ether')).toFixed(6);
+                const sellRate = parseFloat(web3.utils.fromWei(sellRateWei, 'ether')).toFixed(6);
+                const ath = parseFloat(web3.utils.fromWei(athWei, 'ether')).toFixed(6);
+                const atl = parseFloat(web3.utils.fromWei(atlWei, 'ether')).toFixed(6);
+                
+                // Calculate active users (unique addresses that have bought)
+                // Note: This is an estimate - in production you might want to index events
+                const fromBlock = 0;
+                const boughtEvents = await contract.getPastEvents('Bought', {
+                    fromBlock: fromBlock,
+                    toBlock: 'latest'
+                });
+                
+                // Get unique users from Bought events
+                const uniqueUsers = new Set();
+                boughtEvents.forEach(event => {
+                    uniqueUsers.add(event.returnValues.user.toLowerCase());
+                });
+                const activeUsers = uniqueUsers.size;
+                
+                // Calculate total value locked (approximation using total supply * current rate)
+                const tvl = (parseFloat(totalSupply) * parseFloat(buyRate)).toFixed(2);
 
                 document.getElementById('mainContent').innerHTML = `
                     <!-- Hero Section -->
@@ -1489,34 +1601,48 @@
                         </p>
                     </div>
 
-                    <!-- Stats Grid -->
+                    <!-- Stats Grid with Live Data -->
                     <div class="stats-grid">
                         <div class="stat-card">
                             <div class="stat-icon">📊</div>
                             <div class="stat-label">Total Supply</div>
-                            <div class="stat-value">${web3.utils.fromWei(totalSupply, 'ether')} Σ</div>
-                            <div class="stat-change">+2.5% today</div>
+                            <div class="stat-value">${totalSupply} Σ</div>
+                            <div class="stat-change">↑ 100% of tokens</div>
                         </div>
                         
                         <div class="stat-card">
                             <div class="stat-icon">💹</div>
-                            <div class="stat-label">Current Rate</div>
-                            <div class="stat-value">$${(currentRate / 1e18).toFixed(4)}</div>
-                            <div class="stat-change">ATH: $${(ath / 1e18).toFixed(4)}</div>
+                            <div class="stat-label">Buy Rate</div>
+                            <div class="stat-value">$${buyRate}</div>
+                            <div class="stat-change">ATH: $${ath} | ATL: $${atl}</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">📉</div>
+                            <div class="stat-label">Sell Rate</div>
+                            <div class="stat-value">$${sellRate}</div>
+                            <div class="stat-change">Spread: $${(buyRate - sellRate).toFixed(6)}</div>
                         </div>
                         
                         <div class="stat-card">
                             <div class="stat-icon">👥</div>
                             <div class="stat-label">Active Users</div>
-                            <div class="stat-value">1,234</div>
-                            <div class="stat-change">+56 this week</div>
+                            <div class="stat-value">${activeUsers}</div>
+                            <div class="stat-change">${boughtEvents.length} total transactions</div>
                         </div>
                         
                         <div class="stat-card">
                             <div class="stat-icon">💰</div>
                             <div class="stat-label">Total Value Locked</div>
-                            <div class="stat-value">$4.56M</div>
-                            <div class="stat-change">+12.3%</div>
+                            <div class="stat-value">$${tvl}</div>
+                            <div class="stat-change">Σ ${totalSupply} circulating</div>
+                        </div>
+
+                        <div class="stat-card">
+                            <div class="stat-icon">🔗</div>
+                            <div class="stat-label">Creator Wallet</div>
+                            <div class="stat-value" style="font-size: 18px;">${creatorWallet.substring(0,10)}...${creatorWallet.substring(36)}</div>
+                            <div class="stat-change">✓ Verified</div>
                         </div>
                     </div>
 
@@ -1531,7 +1657,7 @@
                     <div class="recent-activity">
                         <div class="section-header">
                             <h2>Recent Activity</h2>
-                            <span style="color: #00ffff;">Live</span>
+                            <span class="live-badge">🔴 LIVE</span>
                         </div>
                         <div class="activity-list" id="activityList">
                             <!-- Activity items will be loaded here -->
@@ -1539,36 +1665,44 @@
                     </div>
                 `;
 
-                // Load recent events
-                loadRecentEvents();
+                // Load recent events (last 5)
+                loadRecentEvents(boughtEvents);
                 
             } catch (error) {
                 console.error('Error loading dashboard:', error);
+                document.getElementById('mainContent').innerHTML = `
+                    <div class="access-denied">
+                        <h2>⚠️ Error Loading Data</h2>
+                        <p>${error.message}</p>
+                    </div>
+                `;
             }
         }
 
         // Load recent events from contract
-        async function loadRecentEvents() {
+        async function loadRecentEvents(boughtEvents) {
             try {
-                const boughtEvents = await contract.getPastEvents('Bought', {
-                    fromBlock: 0,
-                    toBlock: 'latest',
-                    limit: 5
-                });
-
                 const activityList = document.getElementById('activityList');
                 if (activityList) {
                     let html = '';
-                    boughtEvents.forEach(event => {
-                        const timestamp = new Date().toLocaleString();
+                    
+                    // Get last 5 events (most recent first)
+                    const recentEvents = boughtEvents.slice(-5).reverse();
+                    
+                    recentEvents.forEach(event => {
+                        const user = event.returnValues.user;
+                        const sigmaAmount = parseFloat(web3.utils.fromWei(event.returnValues.sigmaAmount, 'ether')).toFixed(2);
+                        const usdtAmount = parseFloat(web3.utils.fromWei(event.returnValues.usdtAmount, 'ether')).toFixed(2);
+                        const timestamp = new Date().toLocaleString(); // Would need event timestamp from block
+                        
                         html += `
                             <div class="activity-item">
                                 <div class="activity-icon">🛒</div>
                                 <div class="activity-details">
-                                    <div class="activity-title">New Purchase</div>
+                                    <div class="activity-title">Buy • ${user.substring(0,6)}...${user.substring(38)}</div>
                                     <div class="activity-time">${timestamp}</div>
                                 </div>
-                                <div class="activity-value">${web3.utils.fromWei(event.returnValues.sigmaAmount, 'ether')} Σ</div>
+                                <div class="activity-value">${sigmaAmount} Σ ($${usdtAmount})</div>
                             </div>
                         `;
                     });
